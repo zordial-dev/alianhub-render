@@ -2,19 +2,18 @@ FROM node:20-bookworm
 
 WORKDIR /app
 
-# Clone the current AlianHub source
 RUN apt-get update && apt-get install -y --no-install-recommends git openssl \
-    && rm -rf /var/lib/apt/lists/* \
-    && git clone --depth 1 https://github.com/aliansoftwareteam/AlianHub-Project-Management-System.git .
+    && rm -rf /var/lib/apt/lists/*
 
-# Install root dependencies
+RUN git clone --depth 1 https://github.com/aliansoftwareteam/AlianHub-Project-Management-System.git .
+
+# Install dependencies
 RUN npm install
 
-# Install frontend dependencies
 RUN cd frontend && npm install
 
-# Install wizard dependencies if present
-RUN if [ -d "wizard" ]; then cd wizard && npm install; fi
+# Build frontend
+RUN cd frontend && npm run build
 
 ENV NODE_ENV=production
 ENV PORT=4000
