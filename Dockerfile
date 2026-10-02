@@ -7,12 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends git openssl \
 
 RUN git clone --depth 1 https://github.com/aliansoftwareteam/AlianHub-Project-Management-System.git .
 
-# Install dependencies
 RUN npm install
-
 RUN cd frontend && npm install
-
-# Build frontend
 RUN cd frontend && npm run build
 
 ENV NODE_ENV=production
@@ -21,4 +17,4 @@ ENV HOST=0.0.0.0
 
 EXPOSE 4000
 
-CMD ["npm", "start"]
+CMD ["sh", "-c", "printf 'PORT=%s\\nNODE_ENV=%s\\nMONGODB_URL=%s\\nJWT_SECRET=%s\\nAPIURL=%s\\nWEBURL=%s\\nSTORAGE_TYPE=%s\\nUNDER_MAINTENANCE=false\\nNOOFPRESETCOMPANY=10\\nPRECOMPANYKEY=%s\\nCORS_ORIGINS=%s\\n' \"$PORT\" \"$NODE_ENV\" \"$MONGODB_URL\" \"$JWT_SECRET\" \"$APIURL\" \"$WEBURL\" \"$STORAGE_TYPE\" \"$PRECOMPANYKEY\" \"$CORS_ORIGINS\" > /app/.env && exec npm start"]
