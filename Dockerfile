@@ -7,7 +7,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends git openssl \
 
 RUN git clone --depth 1 https://github.com/aliansoftwareteam/AlianHub-Project-Management-System.git .
 
-RUN npm run setup
+RUN npm install
+RUN cd frontend && npm install
+RUN cd installation && npm install
+
+# Build both UIs, but DON'T run the setup wizard during Docker build
+RUN cd frontend && npm run build
+RUN cd installation && npm run build
 
 ENV NODE_ENV=production
 ENV PORT=4000
