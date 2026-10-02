@@ -7,12 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends git openssl \
 
 RUN git clone --depth 1 https://github.com/aliansoftwareteam/AlianHub-Project-Management-System.git .
 
-RUN npm install
-RUN cd frontend && npm install
-RUN cd installation && npm install
-
-RUN cd frontend && npm run build
-RUN cd installation && npm run build
+RUN npm run setup
 
 ENV NODE_ENV=production
 ENV PORT=4000
